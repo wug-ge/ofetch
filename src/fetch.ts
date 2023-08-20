@@ -164,6 +164,12 @@ export function createFetch(globalOptions: CreateFetchOptions): $Fetch {
         isPayloadMethod(context.options.method) &&
         isJSONSerializable(context.options.body)
       ) {
+
+        // convert body to string if it's a buffer
+        if (Buffer.isBuffer(context.options.body)) {
+          context.options.body = context.options.body.toString()
+        }
+
         // Automatically JSON stringify request bodies, when not already a string.
         context.options.body =
           typeof context.options.body === "string"
